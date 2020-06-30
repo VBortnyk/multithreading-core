@@ -2,19 +2,18 @@ import org.apache.log4j.Logger;
 
 public class ThreadOne extends Thread {
     private static final Logger LOGGER = Logger.getLogger(ThreadOne.class);
-    private int value = 0;
-    private String threadName;
+    private Counter counter;
 
-    public ThreadOne(String threadName) {
-        this.threadName = threadName;
-        System.out.println("Thread " + threadName + " created");
+    public ThreadOne(Counter counter) {
+        this.counter = counter;
+        LOGGER.info("Thread " + Thread.currentThread().getName() + " created");
     }
 
     @Override
     public void run() {
-        while (value < 25) {
-            System.out.println(Thread.currentThread().getName() + "value is " + value++);
-            LOGGER.info(value);
+        while (counter.getBottom() <= counter.getTop()) {
+            LOGGER.info(counter.getBottom());
+            counter.increment();
         }
     }
 }
